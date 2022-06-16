@@ -1,0 +1,60 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/mvn
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+.metadata
+*.class
+*.uml
+pid.txt
+.sonar_lock
+data/
+out/
+.idea/
+*.mvnw
+*.mvnw.cmd
+
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+# .idea shared files
+!.idea/runConfigurations
+!.idea/inspectionProfiles
+!.idea/.name
+!.idea/checkstyle-idea.xml
+!.idea/codeStyles
+!.idea/compiler.xml
+!.idea/encodings.xml
+!.idea/misc.xml
+!.idea/vcs.xml

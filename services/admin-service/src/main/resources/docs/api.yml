@@ -1,0 +1,254 @@
+openapi: 3.0.0
+info:
+  description: "This documentation list all the available endpoints on the application server"
+  version: "1.1"
+  title: "Car Api"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+
+tags:
+  - name: "docs"
+    description: "Everything about documentation"
+    externalDocs:
+      description: "Find out more"
+      url: "http://example.com"
+  - name: "cars"
+    description: "Everything about admin documentation"
+    externalDocs:
+      description: "Find out more"
+      url: "http://example.com"
+
+paths:
+  "/docs":
+    get:
+      tags:
+        - docs
+      summary: exposes documentation for all the available operations
+      operationId: loadDocs
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "display docs here"
+  "/admin/cars":
+    get:
+      tags:
+        - cars
+      summary: query to get all cars
+      description: return a list of all cars
+      operationId: getAllCars
+      parameters:
+        - name: isReserved
+          in: query
+          description: the isReserved to match
+          schema:
+            type: boolean
+            example: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Car"
+        "404":
+          description: not found
+    post:
+      tags:
+        - cars
+      summary: creates a car entity
+      description: returns the car entity that was just created
+      operationId: createCar
+      requestBody:
+        description: car object that needs to be added to storage
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Car'
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Car"
+        "304":
+          description: car not added
+        "422":
+          description: unprocessable Entity missing
+  "/admin/cars/search":
+    get:
+      tags:
+        - cars
+      summary: query to get all cars that match search criteria
+      description: return a list of all cars
+      operationId: search
+      parameters:
+        - name: address
+          in: query
+          description: the address to match
+          schema:
+            type: string
+            example: Street, City, Country
+        - name: from
+          in: query
+          description: the from to match
+          schema:
+            type: string
+            example: 2022-01-22
+        - name: to
+          in: query
+          description: the from to match
+          schema:
+            type: string
+            example: 2022-02-22
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Car"
+        "404":
+          description: not found
+
+  "/admin/cars/{carId}":
+    get:
+      tags:
+        - cars
+      summary: query to get a car by the carId
+      description: return a car that matches the carId provided
+      operationId: getCarById
+      parameters:
+        - name: carId
+          in: path
+          description: the carId to match
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Car"
+        "404":
+          description: not found
+    put:
+      tags:
+        - cars
+      summary: endpoint exposing funcitionality to update a car's details
+      operationId: updateCar
+      parameters:
+        - name: carId
+          in: path
+          description: the carId to match
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 123456456
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Car"
+        description: Car object that needs to be added to storage
+        required: true
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Car"
+        "304":
+          description: car not updated
+        "404":
+          description: car cannot be found
+    delete:
+      tags:
+        - cars
+      summary: endpoint exposing funcitionality to delete a car from the database
+      operationId: deleteCar
+      parameters:
+        - name: carId
+          in: path
+          description: the carId to match
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 123456456
+      responses:
+        "204":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Car"
+        "304":
+          description: car not updated
+        "404":
+          description: car cannot be found
+
+components:
+  schemas:
+    Car:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: white star
+        description:
+          type: string
+          example: a beautiful car
+        fuelType:
+          type: string
+          example: Petrol
+        transmissionType:
+          type: string
+          example: Automatic
+        imageUrl:
+          type: string
+          example: example.png
+        price:
+          type: integer
+          format: int64
+        passengerCount:
+          type: integer
+          format: int64
+        reserved:
+          type: boolean
+          default: false
+        address:
+          type: object
+          properties:
+            street:
+              type: string
+            country:
+              type: string
+            city:
+              type: string
+
+
+

@@ -1,0 +1,2 @@
+INSERT INTO USERS (first_name, last_name, username, rsa_id, password)
+VALUES ('Dummy', 'User', 'fortesting', '5308223301088', 'password');

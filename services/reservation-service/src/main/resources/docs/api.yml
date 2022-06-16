@@ -1,0 +1,215 @@
+openapi: 3.0.0
+info:
+  description: "This documentation list all the available endpoints on the application server"
+  version: "1.1"
+  title: "Reservation Api"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+
+tags:
+  - name: "docs"
+    description: "Everything about documentation"
+    externalDocs:
+      description: "Find out more"
+      url: "http://example.com"
+  - name: "reservation"
+    description: "Everything about reservation documentation"
+    externalDocs:
+      description: "Find out more"
+      url: "http://example.com"
+
+paths:
+  "/docs":
+    get:
+      tags:
+        - docs
+      summary: exposes documentation for all the available operations
+      operationId: loadDocs
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "display docs here"
+  "/reservations/cars/{carId}":
+    delete:
+      tags:
+        - reservations
+      summary: delete reservations with carId
+      operationId: deleteAllReservationByCarId
+      parameters:
+        - name: carId
+          in: path
+          description: the carId to match
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        "200":
+          description: successful operation
+        "404":
+          description: not found
+  "/reservations":
+    get:
+      tags:
+        - reservations
+      summary: query to get all reservations
+      description: return a list of all reservations
+      operationId: getAllReservations
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Reservation"
+        "404":
+          description: not found
+    post:
+      tags:
+        - reservations
+      summary: creates a reservation entity
+      description: returns the reservation entity that was just created
+      operationId: createReservation
+      requestBody:
+        description: reservation object that needs to be added to storage
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reservation"
+        "304":
+          description: reservation not added
+        "422":
+          description: unprocessable Entity missing
+  "/reservations/{reservationId}":
+    get:
+      tags:
+        - reservations
+      summary: query to get a reservation by the reservationId
+      description: return a reservation that matches the reservationId provided
+      operationId: getReservationById
+      parameters:
+        - name: reservationId
+          in: path
+          description: the reservationId to match
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reservation"
+        "404":
+          description: not found
+    put:
+      tags:
+        - reservations
+      summary: endpoint exposing funcitionality to update a reservations's details
+      operationId: updateReservation
+      parameters:
+        - name: reservationId
+          in: path
+          description: the reservationId to match
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 123456456
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Reservation"
+        description: reservation object that needs to be added to storage
+        required: true
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reservation"
+        "304":
+          description: reservation not updated
+        "404":
+          description: reservation cannot be found
+    delete:
+      tags:
+        - reservations
+      summary: endpoint exposing funcitionality to delete a reservation from the database
+      operationId: deleteReservation
+      parameters:
+        - name: reservationId
+          in: path
+          description: the reservationId to match
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 123456456
+      responses:
+        "204":
+          description: "successful operation"
+        "304":
+          description: reservations not updated
+        "404":
+          description: reservations cannot be found
+
+components:
+  schemas:
+    Reservation:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        userId:
+          type: integer
+          format: int64
+        carId:
+          type: integer
+          format: int64
+        price:
+          type: integer
+          format: int64
+        address:
+          type: object
+          properties:
+            street:
+              type: string
+            country:
+              type: string
+            city:
+              type: string
+        toDate:
+          type: string
+          format: date
+          example: "2019-05-17"
+        fromDate:
+          type: string
+          format: date
+          example: "2019-06-17"
