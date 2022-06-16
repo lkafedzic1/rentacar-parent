@@ -18,6 +18,6 @@ https://drive.google.com/drive/u/0/folders/1D0lkZkLkAQfANMYSLT5Yz30VBSHsgj3o
 
 Članovi tima:
 
-Hodžić Mirza
-Kafedžić Lejla
+Hodžić Mirza,
+Kafedžić Lejla,
 Šeremet Venesa
